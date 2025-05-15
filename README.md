@@ -73,7 +73,7 @@ Deploy dashboard to Power BI Service for scheduled refresh
 
 Parameterize the pipeline for different datasets
 
-💼 About the Author
+## 📬 Contact
 Prakash Pyakurel
 SQL & Azure Data Developer
 📍 Mechanicsburg, PA
