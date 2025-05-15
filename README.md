@@ -61,7 +61,7 @@ It simulates real-world data challenges with messy, multi-source formats (CSV, E
 
 ### 📊 Power BI Dashboard
 
-![Customer Churn Dashboard](screenshots/CustomerChurnDashboard_Final.png)
+![Customer Churn Dashboard](CustomerChurnDashboard_Final.png.png)
 
 ---
 
