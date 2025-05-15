@@ -53,16 +53,15 @@ It simulates real-world data challenges with messy, multi-source formats (CSV, E
 
 > ✅ Make sure these filenames match what’s in your `/screenshots` folder.
 
--Screenshot 2025-05-15 132427.png → pipeline_success.png  
--Screenshot 2025-05-15 132500.png → dataflow_layout.png  
--Screenshot 2025-05-15 132620.png → sink_data_preview.png
-
+- `screenshots/pipeline_success.png`
+- `screenshots/dataflow_layout.png`
+- `screenshots/sink_data_preview.png`
 
 ---
 
 ### 📊 Power BI Dashboard
 
-![Customer Churn Dashboard](CustomerChurnDashboard_Final.png.png)
+![Customer Churn Dashboard](screenshots/CustomerChurnDashboard_Final.png)
 
 ---
 
