@@ -51,8 +51,6 @@ It simulates real-world data challenges with messy, multi-source formats (CSV, E
 
 ### 📸 Screenshots
 
-> ✅ Make sure these filenames match what’s in your `/screenshots` folder.
-
 - `screenshots/pipeline_success.png`
 - `screenshots/dataflow_layout.png`
 - `screenshots/sink_data_preview.png`
