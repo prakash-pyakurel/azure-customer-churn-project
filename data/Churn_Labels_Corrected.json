@@ -1,0 +1,404 @@
+{
+    "ChurnLabels": [
+        {
+            "CustomerID": "3620-ZZZZZ",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "1165-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "4572-VHVEG",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "5594-LOPWE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "5947-VHVEG",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "7922-LOPWE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "4056-LOPWE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "8470-VHVEG",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "5916-GNVDE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "3081-NKOCT",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "2161-NKOCT",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "5840-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "6647-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "3890-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "6076-VHVEG",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "9282-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "9614-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "2301-NKOCT",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "2084-LOPWE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "3459-ZZZZZ",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "6702-ZZZZZ",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "6461-GNVDE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "6782-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "6728-NKOCT",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "5746-VHVEG",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "7195-ZZZZZ",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "9760-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "1467-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "5879-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "3478-NKOCT",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "1985-ZZZZZ",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "7646-NKOCT",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "4502-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "7091-ZZZZZ",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "9876-ZZZZZ",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "2452-LOPWE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "3885-ZZZZZ",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "1778-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "8574-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "3646-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "5704-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "1432-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "5768-NKOCT",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "9219-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "1836-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "2137-VHVEG",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "5069-ZZZZZ",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "8790-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "5230-GNVDE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "3176-VHVEG",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "1048-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "6681-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "1326-GNVDE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "4465-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "2257-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "4557-ZZZZZ",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "1824-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "9175-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "2271-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "4714-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "7015-NKOCT",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "4962-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "7738-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "1857-NKOCT",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "9759-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "3478-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "9009-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "6308-ZZZZZ",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "7658-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "3437-LOPWE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "6934-ZZZZZ",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "7557-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "5281-ZZZZZ",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "2228-NKOCT",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "4115-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "7421-GNVDE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "3829-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "2983-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "7912-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "4759-LOPWE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "9776-GNVDE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "1268-GNVDE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "9206-NKOCT",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "6324-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "2658-GNVDE",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "1852-VHVEG",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "6811-ZZZZZ",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "8112-NKOCT",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "2523-ZZZZZ",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "9175-NKOCT",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "6959-NKOCT",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "1204-LOPWE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "7957-GNVDE",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "2069-ZZZZZ",
+            "ChurnLabel": "Yes"
+        },
+        {
+            "CustomerID": "3410-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "6775-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "4698-NKOCT",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "4053-NKOCT",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "6460-VHVEG",
+            "ChurnLabel": "No"
+        },
+        {
+            "CustomerID": "5948-VHVEG",
+            "ChurnLabel": "Yes"
+        }
+    ]
+}

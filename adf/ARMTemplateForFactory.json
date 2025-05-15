@@ -1,0 +1,701 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory name",
+            "defaultValue": "project3-adf"
+        },
+        "LS_Blob_Project3_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'LS_Blob_Project3'"
+        },
+        "AzureSqlDatabase1_password": {
+            "type": "secureString",
+            "metadata": "Secure string for 'password' of 'AzureSqlDatabase1'"
+        },
+        "AzureSqlDatabase1_properties_typeProperties_server": {
+            "type": "string",
+            "defaultValue": "adf-sql-server-prakash.database.windows.net"
+        },
+        "AzureSqlDatabase1_properties_typeProperties_database": {
+            "type": "string",
+            "defaultValue": "ChurnDB"
+        },
+        "AzureSqlDatabase1_properties_typeProperties_userName": {
+            "type": "string",
+            "defaultValue": "sqladmin"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('factoryName'), '/PL_CustomerChurnETL')]",
+            "type": "Microsoft.DataFactory/factories/pipelines",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "activities": [
+                    {
+                        "name": "Run_CustomerChurnDataFlow",
+                        "type": "ExecuteDataFlow",
+                        "dependsOn": [],
+                        "policy": {
+                            "timeout": "0.12:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [],
+                        "typeProperties": {
+                            "dataflow": {
+                                "referenceName": "DF_CustomerChurnPipeline",
+                                "type": "DataFlowReference",
+                                "parameters": {},
+                                "datasetParameters": {
+                                    "srcCustomerMaster": {},
+                                    "srcServiceLogs": {},
+                                    "srcChurnLabels": {},
+                                    "srcCustomerTransactions": {},
+                                    "SinkCustomerChurnFinal": {}
+                                }
+                            },
+                            "staging": {},
+                            "compute": {
+                                "coreCount": 8,
+                                "computeType": "General"
+                            },
+                            "traceLevel": "Fine"
+                        }
+                    }
+                ],
+                "policy": {
+                    "elapsedTimeMetric": {}
+                },
+                "annotations": [],
+                "lastPublishTime": "2025-05-15T06:50:52Z"
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/dataflows/DF_CustomerChurnPipeline')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/LS_Blob_Project3')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureBlobStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('LS_Blob_Project3_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureSqlDatabase",
+                "typeProperties": {
+                    "server": "[parameters('AzureSqlDatabase1_properties_typeProperties_server')]",
+                    "database": "[parameters('AzureSqlDatabase1_properties_typeProperties_database')]",
+                    "encrypt": "mandatory",
+                    "trustServerCertificate": false,
+                    "authenticationType": "SQL",
+                    "userName": "[parameters('AzureSqlDatabase1_properties_typeProperties_userName')]",
+                    "password": {
+                        "type": "SecureString",
+                        "value": "[parameters('AzureSqlDatabase1_password')]"
+                    }
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DF_CustomerChurnPipeline')]",
+            "type": "Microsoft.DataFactory/factories/dataflows",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "type": "MappingDataFlow",
+                "typeProperties": {
+                    "sources": [
+                        {
+                            "dataset": {
+                                "referenceName": "DS_CustomerMaster_Churn",
+                                "type": "DatasetReference"
+                            },
+                            "name": "srcCustomerMaster"
+                        },
+                        {
+                            "dataset": {
+                                "referenceName": "DS_ServiceLogs_Json",
+                                "type": "DatasetReference"
+                            },
+                            "name": "srcServiceLogs"
+                        },
+                        {
+                            "dataset": {
+                                "referenceName": "DS_ChurnLabels_Corrected",
+                                "type": "DatasetReference"
+                            },
+                            "name": "srcChurnLabels"
+                        },
+                        {
+                            "dataset": {
+                                "referenceName": "DS_CustomerTransactions",
+                                "type": "DatasetReference"
+                            },
+                            "name": "srcCustomerTransactions"
+                        }
+                    ],
+                    "sinks": [
+                        {
+                            "dataset": {
+                                "referenceName": "DS_SinkCustomerChurnFinal",
+                                "type": "DatasetReference"
+                            },
+                            "name": "SinkCustomerChurnFinal"
+                        }
+                    ],
+                    "transformations": [
+                        {
+                            "name": "drvCustomerMasterKey"
+                        },
+                        {
+                            "name": "drvServiceLogsKey"
+                        },
+                        {
+                            "name": "drvChurnLabelsKey"
+                        },
+                        {
+                            "name": "drvCustomerTransactionsKey"
+                        },
+                        {
+                            "name": "flattenServiceLogs"
+                        },
+                        {
+                            "name": "flattenChurnLabels"
+                        },
+                        {
+                            "name": "JoinTransactions"
+                        },
+                        {
+                            "name": "JoinChurnLabels"
+                        },
+                        {
+                            "name": "CleanSelect1"
+                        },
+                        {
+                            "name": "CleanSelect2"
+                        },
+                        {
+                            "name": "JoinServiceLogs"
+                        },
+                        {
+                            "name": "FinalSelect"
+                        }
+                    ],
+                    "scriptLines": [
+                        "source(output(",
+                        "          customerID as string,",
+                        "          gender as string,",
+                        "          SeniorCitizen as string,",
+                        "          Partner as string,",
+                        "          Dependents as string,",
+                        "          tenure as string,",
+                        "          PhoneService as string,",
+                        "          MultipleLines as string,",
+                        "          InternetService as string,",
+                        "          OnlineSecurity as string,",
+                        "          OnlineBackup as string,",
+                        "          DeviceProtection as string,",
+                        "          TechSupport as string,",
+                        "          StreamingTV as string,",
+                        "          StreamingMovies as string,",
+                        "          Contract as string,",
+                        "          PaperlessBilling as string,",
+                        "          PaymentMethod as string,",
+                        "          MonthlyCharges as string,",
+                        "          TotalCharges as string,",
+                        "          Churn as string",
+                        "     ),",
+                        "     allowSchemaDrift: true,",
+                        "     validateSchema: false,",
+                        "     ignoreNoFilesFound: false) ~> srcCustomerMaster",
+                        "source(output(",
+                        "          ServiceLogs as (CustomerID as string, Escalated as boolean, IssueType as string, ResolutionTime as double, Resolved as boolean, TicketDate as date, TicketID as string)[]",
+                        "     ),",
+                        "     allowSchemaDrift: true,",
+                        "     validateSchema: false,",
+                        "     ignoreNoFilesFound: false,",
+                        "     documentForm: 'singleDocument') ~> srcServiceLogs",
+                        "source(output(",
+                        "          ChurnLabels as (CustomerID as string, ChurnLabel as string)[]",
+                        "     ),",
+                        "     allowSchemaDrift: true,",
+                        "     validateSchema: false,",
+                        "     ignoreNoFilesFound: false,",
+                        "     documentForm: 'singleDocument') ~> srcChurnLabels",
+                        "source(output(",
+                        "          CustomerID as string,",
+                        "          TransactionDate as string,",
+                        "          Amount as string,",
+                        "          PlanType as string,",
+                        "          PaymentMethod as string",
+                        "     ),",
+                        "     allowSchemaDrift: true,",
+                        "     validateSchema: false,",
+                        "     ignoreNoFilesFound: false) ~> srcCustomerTransactions",
+                        "srcCustomerMaster derive(CustomerID_JoinKey = upper(trim(customerID))) ~> drvCustomerMasterKey",
+                        "flattenServiceLogs derive(CustomerID_JoinKey = upper(trim(CustomerID))) ~> drvServiceLogsKey",
+                        "flattenChurnLabels derive(CustomerID_JoinKey = upper(trim(CustomerID))) ~> drvChurnLabelsKey",
+                        "srcCustomerTransactions derive(CustomerID_JoinKey = upper(trim(CustomerID))) ~> drvCustomerTransactionsKey",
+                        "srcServiceLogs foldDown(unroll(ServiceLogs),",
+                        "     mapColumn(",
+                        "          ServiceLogs = ServiceLogs.CustomerID,",
+                        "          CustomerID = ServiceLogs.CustomerID,",
+                        "          Escalated = ServiceLogs.Escalated,",
+                        "          IssueType = ServiceLogs.IssueType,",
+                        "          ResolutionTime = ServiceLogs.ResolutionTime,",
+                        "          Resolved = ServiceLogs.Resolved,",
+                        "          TicketDate = ServiceLogs.TicketDate,",
+                        "          TicketID = ServiceLogs.TicketID",
+                        "     ),",
+                        "     skipDuplicateMapInputs: false,",
+                        "     skipDuplicateMapOutputs: false) ~> flattenServiceLogs",
+                        "srcChurnLabels foldDown(unroll(ChurnLabels),",
+                        "     mapColumn(",
+                        "          ChurnLabels = ChurnLabels.CustomerID,",
+                        "          CustomerID = ChurnLabels.CustomerID,",
+                        "          ChurnLabel = ChurnLabels.ChurnLabel",
+                        "     ),",
+                        "     skipDuplicateMapInputs: false,",
+                        "     skipDuplicateMapOutputs: false) ~> flattenChurnLabels",
+                        "drvCustomerMasterKey, drvCustomerTransactionsKey join(drvCustomerMasterKey@CustomerID_JoinKey == drvCustomerTransactionsKey@CustomerID_JoinKey,",
+                        "     joinType:'left',",
+                        "     matchType:'exact',",
+                        "     ignoreSpaces: false,",
+                        "     broadcast: 'auto')~> JoinTransactions",
+                        "CleanSelect1, drvChurnLabelsKey join(CleanSelect1@CustomerID_JoinKey == drvChurnLabelsKey@CustomerID_JoinKey,",
+                        "     joinType:'left',",
+                        "     matchType:'exact',",
+                        "     ignoreSpaces: false,",
+                        "     broadcast: 'auto')~> JoinChurnLabels",
+                        "JoinTransactions select(mapColumn(",
+                        "          customerID = srcCustomerMaster@customerID,",
+                        "          gender,",
+                        "          SeniorCitizen,",
+                        "          Partner,",
+                        "          Dependents,",
+                        "          tenure,",
+                        "          PhoneService,",
+                        "          MultipleLines,",
+                        "          InternetService,",
+                        "          OnlineSecurity,",
+                        "          OnlineBackup,",
+                        "          DeviceProtection,",
+                        "          TechSupport,",
+                        "          StreamingTV,",
+                        "          StreamingMovies,",
+                        "          Contract,",
+                        "          PaperlessBilling,",
+                        "          PaymentMethod = srcCustomerMaster@PaymentMethod,",
+                        "          MonthlyCharges,",
+                        "          TotalCharges,",
+                        "          Churn,",
+                        "          CustomerID_JoinKey = drvCustomerMasterKey@CustomerID_JoinKey,",
+                        "          CustomerID = srcCustomerTransactions@CustomerID,",
+                        "          TransactionDate,",
+                        "          Amount,",
+                        "          PlanType,",
+                        "          PaymentMethod = srcCustomerTransactions@PaymentMethod,",
+                        "          CustomerID_JoinKey1 = drvCustomerTransactionsKey@CustomerID_JoinKey",
+                        "     ),",
+                        "     skipDuplicateMapInputs: true,",
+                        "     skipDuplicateMapOutputs: true) ~> CleanSelect1",
+                        "JoinChurnLabels select(mapColumn(",
+                        "          customerID = CleanSelect1@customerID,",
+                        "          gender,",
+                        "          SeniorCitizen,",
+                        "          Partner,",
+                        "          Dependents,",
+                        "          tenure,",
+                        "          PhoneService,",
+                        "          MultipleLines,",
+                        "          InternetService,",
+                        "          OnlineSecurity,",
+                        "          OnlineBackup,",
+                        "          DeviceProtection,",
+                        "          TechSupport,",
+                        "          StreamingTV,",
+                        "          StreamingMovies,",
+                        "          Contract,",
+                        "          PaperlessBilling,",
+                        "          PaymentMethod,",
+                        "          MonthlyCharges,",
+                        "          TotalCharges,",
+                        "          Churn,",
+                        "          CustomerID_JoinKey = CleanSelect1@CustomerID_JoinKey,",
+                        "          CustomerID = CleanSelect1@CustomerID,",
+                        "          TransactionDate,",
+                        "          Amount,",
+                        "          PlanType,",
+                        "          CustomerID_JoinKey1,",
+                        "          ChurnLabels,",
+                        "          CustomerID = flattenChurnLabels@CustomerID,",
+                        "          ChurnLabel,",
+                        "          CustomerID_JoinKey2 = drvChurnLabelsKey@CustomerID_JoinKey",
+                        "     ),",
+                        "     skipDuplicateMapInputs: true,",
+                        "     skipDuplicateMapOutputs: true) ~> CleanSelect2",
+                        "CleanSelect2, drvServiceLogsKey join(CleanSelect2@CustomerID_JoinKey == drvServiceLogsKey@CustomerID_JoinKey,",
+                        "     joinType:'left',",
+                        "     matchType:'exact',",
+                        "     ignoreSpaces: false,",
+                        "     broadcast: 'auto')~> JoinServiceLogs",
+                        "JoinServiceLogs select(mapColumn(",
+                        "          gender,",
+                        "          SeniorCitizen,",
+                        "          Partner,",
+                        "          Dependents,",
+                        "          tenure,",
+                        "          PhoneService,",
+                        "          MultipleLines,",
+                        "          InternetService,",
+                        "          OnlineSecurity,",
+                        "          OnlineBackup,",
+                        "          DeviceProtection,",
+                        "          TechSupport,",
+                        "          StreamingTV,",
+                        "          StreamingMovies,",
+                        "          Contract,",
+                        "          PaperlessBilling,",
+                        "          PaymentMethod,",
+                        "          MonthlyCharges,",
+                        "          TotalCharges,",
+                        "          Churn,",
+                        "          CustomerID_JoinKey = CleanSelect2@CustomerID_JoinKey,",
+                        "          TransactionDate,",
+                        "          Amount,",
+                        "          PlanType,",
+                        "          ChurnLabels,",
+                        "          ChurnLabel,",
+                        "          ServiceLogs,",
+                        "          Escalated,",
+                        "          IssueType,",
+                        "          ResolutionTime,",
+                        "          Resolved,",
+                        "          TicketDate,",
+                        "          TicketID",
+                        "     ),",
+                        "     skipDuplicateMapInputs: true,",
+                        "     skipDuplicateMapOutputs: true) ~> FinalSelect",
+                        "FinalSelect sink(allowSchemaDrift: true,",
+                        "     validateSchema: false,",
+                        "     deletable:false,",
+                        "     insertable:true,",
+                        "     updateable:false,",
+                        "     upsertable:false,",
+                        "     format: 'table',",
+                        "     skipDuplicateMapInputs: true,",
+                        "     skipDuplicateMapOutputs: true,",
+                        "     errorHandlingOption: 'stopOnFirstError') ~> SinkCustomerChurnFinal"
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/datasets/DS_CustomerMaster_Churn')]",
+                "[concat(variables('factoryId'), '/datasets/DS_ServiceLogs_Json')]",
+                "[concat(variables('factoryId'), '/datasets/DS_ChurnLabels_Corrected')]",
+                "[concat(variables('factoryId'), '/datasets/DS_CustomerTransactions')]",
+                "[concat(variables('factoryId'), '/datasets/DS_SinkCustomerChurnFinal')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_CustomerMaster_Churn')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_Blob_Project3",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "DelimitedText",
+                "typeProperties": {
+                    "location": {
+                        "type": "AzureBlobStorageLocation",
+                        "fileName": "CustomerMaster_Churn.csv",
+                        "container": "customerchurn"
+                    },
+                    "columnDelimiter": ",",
+                    "escapeChar": "\\",
+                    "firstRowAsHeader": true,
+                    "quoteChar": "\""
+                },
+                "schema": [
+                    {
+                        "name": "customerID",
+                        "type": "String"
+                    },
+                    {
+                        "name": "gender",
+                        "type": "String"
+                    },
+                    {
+                        "name": "SeniorCitizen",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Partner",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Dependents",
+                        "type": "String"
+                    },
+                    {
+                        "name": "tenure",
+                        "type": "String"
+                    },
+                    {
+                        "name": "PhoneService",
+                        "type": "String"
+                    },
+                    {
+                        "name": "MultipleLines",
+                        "type": "String"
+                    },
+                    {
+                        "name": "InternetService",
+                        "type": "String"
+                    },
+                    {
+                        "name": "OnlineSecurity",
+                        "type": "String"
+                    },
+                    {
+                        "name": "OnlineBackup",
+                        "type": "String"
+                    },
+                    {
+                        "name": "DeviceProtection",
+                        "type": "String"
+                    },
+                    {
+                        "name": "TechSupport",
+                        "type": "String"
+                    },
+                    {
+                        "name": "StreamingTV",
+                        "type": "String"
+                    },
+                    {
+                        "name": "StreamingMovies",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Contract",
+                        "type": "String"
+                    },
+                    {
+                        "name": "PaperlessBilling",
+                        "type": "String"
+                    },
+                    {
+                        "name": "PaymentMethod",
+                        "type": "String"
+                    },
+                    {
+                        "name": "MonthlyCharges",
+                        "type": "String"
+                    },
+                    {
+                        "name": "TotalCharges",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Churn",
+                        "type": "String"
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_Blob_Project3')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_ChurnLabels_Corrected')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_Blob_Project3",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "Json",
+                "typeProperties": {
+                    "location": {
+                        "type": "AzureBlobStorageLocation",
+                        "fileName": "Churn_Labels_Corrected.json",
+                        "container": "customerchurn"
+                    }
+                },
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "ChurnLabels": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "CustomerID": {
+                                        "type": "string"
+                                    },
+                                    "ChurnLabel": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_Blob_Project3')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_CustomerTransactions')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_Blob_Project3",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "Excel",
+                "typeProperties": {
+                    "sheetName": "Sheet1",
+                    "location": {
+                        "type": "AzureBlobStorageLocation",
+                        "fileName": "Customer_Transactions.xlsx",
+                        "container": "customerchurn"
+                    },
+                    "firstRowAsHeader": true
+                },
+                "schema": [
+                    {
+                        "name": "CustomerID",
+                        "type": "String"
+                    },
+                    {
+                        "name": "TransactionDate",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Amount",
+                        "type": "String"
+                    },
+                    {
+                        "name": "PlanType",
+                        "type": "String"
+                    },
+                    {
+                        "name": "PaymentMethod",
+                        "type": "String"
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_Blob_Project3')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_ServiceLogs_Json')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "LS_Blob_Project3",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "Json",
+                "typeProperties": {
+                    "location": {
+                        "type": "AzureBlobStorageLocation",
+                        "fileName": "Customer_Service.json",
+                        "container": "customerchurn"
+                    }
+                },
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "ServiceLogs": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "CustomerID": {
+                                        "type": "string"
+                                    },
+                                    "TicketID": {
+                                        "type": "string"
+                                    },
+                                    "IssueType": {
+                                        "type": "string"
+                                    },
+                                    "TicketDate": {
+                                        "type": "string"
+                                    },
+                                    "ResolutionTime": {
+                                        "type": "number"
+                                    },
+                                    "Escalated": {
+                                        "type": "string"
+                                    },
+                                    "Resolved": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/LS_Blob_Project3')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DS_SinkCustomerChurnFinal')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureSqlDatabase1",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "schema": [],
+                "typeProperties": {
+                    "schema": "dbo",
+                    "table": "CustomerChurnFinal"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+            ]
+        }
+    ]
+}
