@@ -49,11 +49,11 @@ It simulates real-world data challenges with messy, multi-source formats (CSV, E
 
 ---
 
-### 📸 Screenshots
+## 📸 Screenshots
 
-- (screenshots/pipeline_success.png)
-- (screenshots/dataflow_layout.png)
-- (screenshots/sink_data_preview.png)
+![Pipeline Success](screenshots/pipeline_success.png)  
+![Dataflow Layout](screenshots/dataflow_layout.png)  
+![Sink Data Preview](screenshots/sink_data_preview.png)
 
 ---
 
