@@ -1,68 +1,71 @@
-📊 Azure Customer Churn Project
-End-to-end ETL pipeline project designed to analyze customer churn trends using Azure Data Factory, Azure SQL Database, and (optionally) Power BI. This project simulates real-world data engineering by integrating multiple messy data sources, cleaning and transforming them in ADF, and loading them into SQL for analytics.
+# 🧮 Customer Churn Analytics Dashboard  
+📌 Built using **Azure Data Factory, Azure SQL, and Power BI** — May 2025
 
-🔧 Tools & Technologies Used
-Azure Data Factory – ETL orchestration, flattening, joins, and transformation
+---
 
-Azure SQL Database – Cleaned data sink and analytics layer
+### 📝 Overview
 
-Power BI (optional) – Visualizing churn metrics and customer behavior
+This project delivers an end-to-end ETL pipeline that ingests, transforms, and analyzes customer churn data using **Azure Data Factory**, **Azure SQL Database**, and **Power BI**.
 
-Data Sources – CSV, Excel, JSON (2 files)
+It simulates real-world data challenges with messy, multi-source formats (CSV, Excel, JSON), cleans and flattens the data in ADF, loads it into Azure SQL, and visualizes customer behavior and churn trends in Power BI.
 
-📁 Project Structure
-bash
-Copy
-Edit
-azure-customer-churn-project/
-├── adf/                        # ADF ARM templates
-├── data/                       # Raw source data files
-├── power bi/                   # Power BI .pbix file (if added)
-├── screenshots/                # Pipeline, sink, data flow, Power BI dashboard
-├── sql/                        # Table creation + validation queries
-└── README.md                   # Project overview and explanation
-📌 Objective
-To build a scalable ETL pipeline that processes multi-format customer data and prepares it for churn analysis using cloud-native tools. This simulates business scenarios like subscription services or telecom analytics.
+---
 
-🧱 Data Sources Used
-CustomerMaster_Churn.csv – Customer profiles and churn status
+### 🧰 Tools & Technologies Used
 
-Customer_Transactions.xlsx – Purchase history
+- **Azure Data Factory** — ETL pipeline orchestration & data flow transformations  
+- **Azure SQL Database** — Data sink & analytics layer  
+- **Azure Blob Storage** — Source file storage  
+- **Power BI** — KPIs and customer churn visualizations  
+- **T-SQL** — Validation queries  
+- **Source Formats** — CSV, Excel, JSON (x2)
 
-Churn_Labels_Corrected.json – Enriched churn indicators
+---
 
-Customer_Service.json – Service log records
+### 🔁 ETL Process Flow
 
-🔁 ETL Process Overview
-Ingest Data from all four formats (CSV, Excel, JSON x2)
+#### 1. Data Ingestion
+- Uploaded 4 source files (CSV, Excel, and 2 JSON) to Azure Blob Storage  
+- Connected files to ADF as datasets
 
-Standardize IDs using Derived Columns (CustomerID_JoinKey)
+#### 2. Data Flow Transformations in ADF
+- Flattened nested arrays from `ServiceLogs` and `ChurnLabels` JSONs  
+- Used derived columns to trim and lowercase IDs  
+- Standardized to create `CustomerID_JoinKey` across sources  
+- Inner and left joins across the following order:
 
-Flatten JSON arrays from service logs and churn labels
+#### 3. Sink to Azure SQL
+- Output written to SQL table: `CustomerChurnFinal`
 
-Sequential Joins:
+#### 4. Power BI
+- Connected to Azure SQL  
+- Built dashboard with KPIs and visuals:
+- Total Customers
+- Total Churned
+- Churn Rate
+- Avg Monthly Charges
+- Churn by Plan and Contract
+- Top 10 customers by total charges
 
-Master ← Transactions ← Churn ← Service Logs
+---
 
-Clean Output using Select transformation
+### 📸 Screenshots
 
-Load to Azure SQL (CustomerChurnFinal table)
+> ✅ Make sure these filenames match what’s in your `/screenshots` folder.
 
-(Optional) Connect to Power BI for interactive dashboard
+- `screenshots/pipeline_success.png`
+- `screenshots/dataflow_layout.png`
+- `screenshots/sink_data_preview.png`
 
-🖥️ Screenshots
-screenshots/pipeline_success.png
-
-screenshots/dataflow_layout.png
-
-screenshots/sink_data_preview.png
+---
 
 ### 📊 Power BI Dashboard
 
 ![Customer Churn Dashboard](screenshots/CustomerChurnDashboard_Final.png)
 
+---
 
-📈 Future Improvements
+### 🚀 Future Improvements
 Add calculated churn scores
 
 Deploy dashboard to Power BI Service for scheduled refresh
